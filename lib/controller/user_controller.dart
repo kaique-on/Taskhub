@@ -93,8 +93,8 @@ class UserController  {
     ListaDoUsuario.user.setAll(index, [lista]);
     print(ListaDoUsuario.user[index]);
    }
-    verificarSenhaIgual(context, senhaConfirm, senhaNova, index){
-      if (senhaConfirm == senhaNova){
+    verificarSenhaIgual(context, String senhaConfirm, String senhaNova, String senhaAtual, index){
+      if (senhaConfirm == senhaNova && senhaAtual == ListaDoUsuario.user[index].senha && senhaNova.isNotEmpty){
        ListaDoUsuario.user[index].senha = senhaNova;
        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
@@ -116,10 +116,7 @@ class UserController  {
                     ],
                 )));
       }
-      print(ListaDoUsuario.user[index]);
     }
-
-
  } 
 
 

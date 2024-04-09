@@ -14,6 +14,7 @@ class AlterarSenha extends StatefulWidget {
 class _AlterarSenhaState extends State<AlterarSenha> {
   UserController metodos = UserController();
 
+  final senhaAntiga = TextEditingController();
   final senhainsert = TextEditingController();
 
   final senhaConfirm = TextEditingController();
@@ -35,6 +36,18 @@ class _AlterarSenhaState extends State<AlterarSenha> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
+                controller: senhaAntiga,
+                style: const TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                    labelText: 'Senha antiga', fillColor: Colors.black,
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.grey.withAlpha(80), width: 0),
+                            borderRadius: const BorderRadius.all(
+                            Radius.circular(8),
+                ))),   
+            ),
+            TextFormField(
                 controller: senhainsert,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
@@ -50,7 +63,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                 controller: senhaConfirm,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                    labelText: 'Senha Nova', fillColor: Colors.black,
+                    labelText: 'Confirmar senha', fillColor: Colors.black,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.grey.withAlpha(80), width: 0),
@@ -65,7 +78,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                 child: ElevatedButton(
                   onPressed: (){
                     setState(() {
-                    metodos.verificarSenhaIgual(context, senhaConfirm.text, senhainsert.text, widget.index);
+                    metodos.verificarSenhaIgual(context, senhaConfirm.text, senhainsert.text,senhaAntiga.text, widget.index);
                     });
                   }, 
                   child:  Text('Atualizar dados', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
