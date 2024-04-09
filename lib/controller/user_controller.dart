@@ -93,14 +93,33 @@ class UserController  {
     ListaDoUsuario.user.setAll(index, [lista]);
     print(ListaDoUsuario.user[index]);
    }
-    /* verificarSenhaIgual(context, senhaConfirm, User lista){
-      if (senhaConfirm == lista.senha){
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=> TelaEditarPerfil()), (route) => false, );
+    verificarSenhaIgual(context, senhaConfirm, senhaNova, index){
+      if (senhaConfirm == senhaNova){
+       ListaDoUsuario.user[index].senha = senhaNova;
+       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.green,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Senha alterada com sucesso! Em alguns segundos, será atualizada', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.check, color: Colors.green,)
+                    ],
+                )));
+      }else{
+         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.red,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Increndecias inválidas', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.error, color: Colors.red,)
+                    ],
+                )));
       }
+      print(ListaDoUsuario.user[index]);
     }
 
 
-*/
  } 
 
 

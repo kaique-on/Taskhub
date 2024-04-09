@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:taskhub/controller/user_controller.dart';
 import 'package:taskhub/database/user_dados.dart';
 import 'package:taskhub/model/user_model.dart';
+import 'package:taskhub/ui/confirmar_senha.dart';
 import 'package:taskhub/ui/tela_inicial.dart';
+import 'package:taskhub/ui/tela_login.dart';
 
 class TelaPerfil extends StatefulWidget {
   
@@ -35,7 +37,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
     senhaEdit.text = lista[widget.index].senha;
   }
 
-  
+  bool eyeText = false;
 
 
   @override
@@ -46,6 +48,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
       Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text("${lista[widget.index].email}"),
             Text("${lista[widget.index].senha}"),
@@ -56,9 +59,13 @@ class _TelaPerfilState extends State<TelaPerfil> {
             Image.network(height: 100, width: 100, '${lista[widget.index].imagem}'),
         
             ElevatedButton(
-              onPressed: (){}, 
+              onPressed: (){
+                showDialog(context: context, builder: (BuildContext context) {
+                  return AlterarSenha(index: widget.index);
+                });
+              }, 
             child: Icon(Icons.edit)
-            ),
+            )
         
             
         ],),
@@ -89,32 +96,52 @@ class _TelaPerfilState extends State<TelaPerfil> {
             ))),    
         ),
         SizedBox(height: 8),
-        TextFormField(
-              controller: senhaConfirmar,
-            style: const TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-                labelText: 'Senha atual', fillColor: Colors.black,
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.grey.withAlpha(80), width: 0),
-                        borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-            ))),  
-            obscureText: true,  
-        ),
-        SizedBox(height: 8),
-        TextFormField(
-              controller: senhaEdit,
-            style: const TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-                labelText: 'Senha Nova', fillColor: Colors.black,
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.grey.withAlpha(80), width: 0),
-                        borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-            ))),   
-            obscureText: true, 
+        // TextFormField(
+        //       controller: senhaConfirmar,
+        //     style: const TextStyle(color: Colors.black),
+        //     decoration: InputDecoration(
+        //         labelText: 'Senha atual', fillColor: Colors.black,
+        //         border: OutlineInputBorder(
+        //             borderSide: BorderSide(
+        //                 color: Colors.grey.withAlpha(80), width: 0),
+        //                 borderRadius: const BorderRadius.all(
+        //                 Radius.circular(8),
+        //     ))),  
+        //     obscureText: true,  
+        // ),
+        // SizedBox(height: 8),
+        // // TextFormField(
+        //       controller: senhaEdit,
+        //     style: const TextStyle(color: Colors.black),
+        //     decoration: InputDecoration(
+        //         labelText: 'Senha Nova', fillColor: Colors.black,
+        //         border: OutlineInputBorder(
+        //             borderSide: BorderSide(
+        //                 color: Colors.grey.withAlpha(80), width: 0),
+        //                 borderRadius: const BorderRadius.all(
+        //                 Radius.circular(8),
+        //     ))),   
+        //     obscureText: true, 
+        // ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Row(
+              children: [
+                Text('Senha atual: '),
+                Text(!eyeText ? '•' * senhaEdit.text.length : senhaEdit.text, style: TextStyle(color: Colors.black),),
+              ],
+            ),
+            Row(
+              children: [
+              IconButton(onPressed: ()=>{
+                setState(() {
+                   eyeText = !eyeText;
+                })
+              }, icon: Icon(Icons.remove_red_eye))
+              ],
+            ),
+          ],
         ),
         
         Container(
@@ -130,6 +157,9 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   }, 
                   child:  Text('Atualizar dados', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
               ),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginInicial()));
+          }, icon: Icon(Icons.door_front_door))
         
           ],
         ),
