@@ -63,12 +63,13 @@ class _LoginInicialState extends State<LoginInicial> {
               },
               child: SizedBox(
                 width: 180,
-                child: Text("Não tem uma conta? Cadastre-se!", textAlign: TextAlign.center,)),
+                child: Text("Não tem uma conta? Cadastre-se!", textAlign: TextAlign.center)),
             )
 
           ],
         ),
       ),
+
     );
   }
 }

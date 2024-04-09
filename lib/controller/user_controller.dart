@@ -10,13 +10,12 @@ class UserController  {
     void cadastrar(context, User user){
     
         
-        var result = ListaUsuarios.user.where((item) => item.email == user.email);
-
+        var result = ListaDoUsuario.user.where((item) => item.email == user.email);
 
          
         if (user.email.contains('@') && user.email.contains('.com')){
-            print(ListaUsuarios.user);
-            ListaUsuarios.user.add(user);
+            print(ListaDoUsuario.user);
+            ListaDoUsuario.user.add(user);
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
                 content: Row(
@@ -50,13 +49,13 @@ class UserController  {
 
     void login(context, String email, String senha){
         
-        print(ListaUsuarios.user);
-        var result = ListaUsuarios.user.where((item) => item.email == email && item.senha == senha);
-        var index = ListaUsuarios.user.indexWhere((item) => item.email == email);
+        print(ListaDoUsuario.user);
+        var result = ListaDoUsuario.user.where((item) => item.email == email && item.senha == senha);
+        var index = ListaDoUsuario.user.indexWhere((item) => item.email == email);
         if(result.isNotEmpty){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=> TelaInicial(usuario: ListaUsuarios.user[index].nome,)), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=> TelaInicial(index: index)), (route) => false, );
         }else{
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.red,
                 content: Row(
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,5 +66,41 @@ class UserController  {
                 )));
         }
     }
-}
+
+    editar(context, index, User lista, senhaConfirmar){
+    if(lista.email.isEmpty){
+        lista.email = ListaDoUsuario.user[index].email;
+    }else if(lista.nome.isEmpty){
+        lista.nome = ListaDoUsuario.user[index].nome;
+    }else if(lista.senha.isEmpty){
+        lista.senha = ListaDoUsuario.user[index].senha;
+    }else if(lista.email.isNotEmpty && !lista.email.contains('@') && !lista.email.contains('.com')){
+         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.red,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Email inválido, tente inserir credencias válidas', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.error)
+                    ],
+                )));
+        lista.email = ListaDoUsuario.user[index].email;
+    }
+    else if(lista.nome.isEmpty && lista.senha.isEmpty  && lista.email.isEmpty){
+        return 'Insira algum texto para editar';
+    }
+
+    ListaDoUsuario.user.setAll(index, [lista]);
+    print(ListaDoUsuario.user[index]);
+   }
+    /* verificarSenhaIgual(context, senhaConfirm, User lista){
+      if (senhaConfirm == lista.senha){
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=> TelaEditarPerfil()), (route) => false, );
+      }
+    }
+
+
+*/
+ } 
+
 

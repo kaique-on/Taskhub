@@ -1,7 +1,12 @@
 import 'package:taskhub/model/user_model.dart';
 
-class ListaUsuarios {
+class ListaDoUsuario {
    static List<User> user = [
-    User(email: 'xzdavsz', senha: '12345', nome: 'Davi')
+    User(email: 'emaill', senha: 'senhaa', nome: 'Davi')
   ];
+
+  static List<User> getterUsuarios() {
+    return user;
+  }
+
 }

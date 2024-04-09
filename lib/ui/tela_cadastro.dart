@@ -61,6 +61,7 @@ class _CadastroState extends State<Cadastro> {
                   email: emailController.text, 
                   senha: senhaController.text,
                   nome: nomeController.text,
+                  
                   );
               setState(() {
                 userController.cadastrar(context,user);

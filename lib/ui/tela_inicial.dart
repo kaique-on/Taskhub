@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taskhub/controller/list_controller.dart';
 import 'package:taskhub/database/list_dados.dart';
+import 'package:taskhub/database/user_dados.dart';
 import 'package:taskhub/model/list_model.dart';
+import 'package:taskhub/model/user_model.dart';
+import 'package:taskhub/ui/tela_perfil.dart';
 
 class TelaInicial extends StatefulWidget {
-  final String usuario;
-  const TelaInicial({super.key, required this.usuario});
+  
+  final int index;
+
+  const TelaInicial({super.key, required this.index});
 
   @override
   State<TelaInicial> createState() => _TelaInicialState();
@@ -16,7 +21,7 @@ class _TelaInicialState extends State<TelaInicial> {
 
 
   List<Lista> usuario = ListaUsuarios.getListaUsuarios();
-
+  List<User> lista = ListaDoUsuario.getterUsuarios();
 
   ListController listaController = ListController();
   final textoItem = TextEditingController();  
@@ -27,17 +32,19 @@ class _TelaInicialState extends State<TelaInicial> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight + 26),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, top: 20, bottom: 4, right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Seja bem vindo, ${widget.usuario}!', style: GoogleFonts.nunitoSans(color: Colors.black, fontSize: 18)),
-              SizedBox(
-                height: 4,
-              ),
-              Text('Sua lista de atividades:', style: GoogleFonts.nunitoSans(color: Colors.black, fontSize: 18))
-            ],
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, top: 20, bottom: 4, right: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Seja bem vindo, ${lista[widget.index].nome}!', style: GoogleFonts.nunitoSans(color: Colors.black, fontSize: 18)),
+                SizedBox(
+                  height: 4,
+                ),
+                Text('Sua lista de atividades:', style: GoogleFonts.nunitoSans(color: Colors.black, fontSize: 18))
+              ],
+            ),
           ),
         ),
       ),
@@ -84,7 +91,7 @@ class _TelaInicialState extends State<TelaInicial> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(usuario[index].texto, style: TextStyle(color: Colors.black)),
+                              Text(usuario[index].texto, style: TextStyle(color: Colors.black,  decoration: usuario[index].isChecked ? TextDecoration.lineThrough : null, decorationThickness: 2.0,)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
@@ -120,6 +127,36 @@ class _TelaInicialState extends State<TelaInicial> {
           ],    
         ),
       ),
+
+            bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {},
+            ),
+            SizedBox(), // Espaço vazio no meio para acomodar o botão flutuante
+            IconButton(
+              icon: Icon(Icons.account_circle_outlined),
+              onPressed: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TelaPerfil( index: widget.index,)),
+                 );
+              },
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
