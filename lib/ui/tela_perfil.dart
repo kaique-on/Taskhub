@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taskhub/controller/user_controller.dart';
 import 'package:taskhub/database/user_dados.dart';
 import 'package:taskhub/model/user_model.dart';
+import 'package:taskhub/ui/confirmar_email.dart';
 import 'package:taskhub/ui/confirmar_senha.dart';
+import 'package:taskhub/ui/imagem_editar.dart';
 import 'package:taskhub/ui/tela_inicial.dart';
 import 'package:taskhub/ui/tela_login.dart';
 
@@ -56,7 +59,11 @@ class _TelaPerfilState extends State<TelaPerfil> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-            Image.network(height: 100, width: 100, '${lista[widget.index].imagem}'),
+            GestureDetector(
+              onTap: () {showDialog(context: context, builder: (BuildContext context) {
+                  return AlterarImagem(index: widget.index);
+                });},
+              child: Image.network(height: 100, width: 100, '${lista[widget.index].imagem}')),
         
             ElevatedButton(
               onPressed: (){
@@ -65,23 +72,31 @@ class _TelaPerfilState extends State<TelaPerfil> {
                 });
               }, 
             child: Icon(Icons.edit)
+            ),
+            ElevatedButton(
+              onPressed: (){
+                showDialog(context: context, builder: (BuildContext context) {
+                  return AlterarEmail(index: widget.index);
+                });
+              }, 
+            child: Icon(Icons.email)
             )
         
             
         ],),
         
-        TextFormField(
-        controller: emailEdit,
-            style: const TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-          labelText: 'Email', fillColor: Colors.black,
-          border: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Colors.white, width: 0),
-                  borderRadius: const BorderRadius.all(
-                  Radius.circular(8),
-            ))),    
-        ),
+        // TextFormField(
+        // controller: emailEdit,
+        //     style: const TextStyle(color: Colors.black),
+        //     decoration: InputDecoration(
+        //   labelText: 'Email', fillColor: Colors.black,
+        //   border: OutlineInputBorder(
+        //       borderSide: BorderSide(
+        //           color: Colors.white, width: 0),
+        //           borderRadius: const BorderRadius.all(
+        //           Radius.circular(8),
+        //     ))),    
+        // ),
         SizedBox(height: 8),
         TextFormField(
               controller: nomeEdit,

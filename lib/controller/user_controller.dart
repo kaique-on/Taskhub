@@ -72,8 +72,6 @@ class UserController  {
         lista.email = ListaDoUsuario.user[index].email;
     }else if(lista.nome.isEmpty){
         lista.nome = ListaDoUsuario.user[index].nome;
-    }else if(lista.senha.isEmpty){
-        lista.senha = ListaDoUsuario.user[index].senha;
     }else if(lista.email.isNotEmpty && !lista.email.contains('@') && !lista.email.contains('.com')){
          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.red,
@@ -93,6 +91,7 @@ class UserController  {
     ListaDoUsuario.user.setAll(index, [lista]);
     print(ListaDoUsuario.user[index]);
    }
+
     verificarSenhaIgual(context, String senhaConfirm, String senhaNova, String senhaAtual, index){
       if (senhaConfirm == senhaNova && senhaAtual == ListaDoUsuario.user[index].senha && senhaNova.isNotEmpty){
        ListaDoUsuario.user[index].senha = senhaNova;
@@ -117,6 +116,58 @@ class UserController  {
                 )));
       }
     }
+    verificarEmail(context, String emailConfirm, String emailNovo, String emailAntigo, index){
+      bool emailValido;
+      if(emailNovo.contains('@') && emailNovo.contains('.com') && emailNovo == emailConfirm){
+        emailValido = true;
+      }else{
+        return ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.red,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Insira um email válido', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.error, color: Colors.red,)
+                    ],
+                )));
+      }
+      if(emailValido && ListaDoUsuario.user[index].email == emailAntigo && emailNovo.isNotEmpty ){
+        ListaDoUsuario.user[index].email = emailNovo;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.green,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Email alterado com sucesso, o email será atualizado ao voltar para essa página', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.check, color: Colors.green,)
+                    ],
+                )));
+      }
+    }
+    void adicionarImagem(context, String link, index){
+      if(link.isNotEmpty){
+        ListaDoUsuario.user[index].imagem = link; ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.green,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Foto alterada, a imagem será atualizada ao voltar para página', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.check, color: Colors.green,)
+                    ],
+                )));
+      }else{
+         ListaDoUsuario.user[index].imagem = link; ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.green,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Erro insira um link válido', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.error, color: Colors.red,)
+                    ],
+                )));
+      }
+    }
+
  } 
 
 
