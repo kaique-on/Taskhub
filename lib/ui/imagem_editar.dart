@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:taskhub/controller/user_controller.dart';
 import 'package:taskhub/database/user_dados.dart';
 import 'package:taskhub/model/user_model.dart';
+import 'package:taskhub/ui/tela_perfil.dart';
 
 class AlterarImagem extends StatefulWidget {
   final int index;
@@ -18,17 +19,18 @@ class AlterarImagem extends StatefulWidget {
 
 class _AlterarImagemState extends State<AlterarImagem> {
   UserController metodos = UserController();
-
+  
   List<User> lista = ListaDoUsuario.getterUsuarios();
+
   final imagemNova = TextEditingController();
 
     void initState () {
     super.initState();
     imagemNova.text = lista[widget.index].imagem;
   }
-
   @override
   Widget build(BuildContext context) {
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8)
@@ -58,7 +60,7 @@ class _AlterarImagemState extends State<AlterarImagem> {
             SizedBox(height: 16),
             ClipRRect(
               borderRadius: BorderRadius.circular(100),
-              child: Image.network(height: 100, width: 100, '${lista[widget.index].imagem}')),
+              child: Image.network(height: 100, width: 50, '${lista[widget.index].imagem}', )),
             SizedBox(height: 8),
             Container(
                 width: double.infinity,
@@ -67,22 +69,23 @@ class _AlterarImagemState extends State<AlterarImagem> {
                 child: ElevatedButton(
                   onPressed: (){
                     setState(() {
-                    metodos.adicionarImagem(context, imagemNova.text,  widget.index);
+                    metodos.adicionarImagem(context, imagemNova.text, widget.index,);
                     });
                   }, 
                   child:  Text('Atualizar imagem', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
               ),
-          Container(
-                width: double.infinity,
-                height: 40,
-                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: Colors.red[600], borderRadius: BorderRadius.circular(8)),
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).pop();
-                  }, 
-                  child:  Center(child: Text('Fechar', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), ))),
-              )],
+          GestureDetector(
+            onTap: () {
+                   Navigator.push(context, MaterialPageRoute(builder: (context)=> TelaPerfil(index: widget.index,)));
+                  },
+            child: Container(
+                  width: double.infinity,
+                  height: 40,
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(color: Colors.red[600], borderRadius: BorderRadius.circular(8)),
+                  child: Center(child: Text('Fechar', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), )),
+                ),
+          )],
         ),
          ),
       ),

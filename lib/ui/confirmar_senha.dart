@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taskhub/controller/user_controller.dart';
+import 'package:taskhub/ui/tela_perfil.dart';
 
 class AlterarSenha extends StatefulWidget {
   final int index;
@@ -75,29 +76,31 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                 ))),   
             ),
             SizedBox(height: 8,),
-            Container(
-                width: double.infinity,
-                height: 40,
-                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: Colors.green[600], borderRadius: BorderRadius.circular(8)),
-                child: GestureDetector(
-                  onTap: (){
-                    setState(() {
-                    metodos.verificarSenhaIgual(context, senhaConfirm.text, senhainsert.text,senhaAntiga.text, widget.index);
-                    });
-                  }, 
-                  child:  Center(child: Text('Atualizar senha', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), ))),
-              ),
-              Container(
-                width: double.infinity,
-                height: 40,
-                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: Colors.red[600], borderRadius: BorderRadius.circular(8)),
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).pop();
-                  }, 
-                  child:  Center(child: Text('Fechar', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), ))),
+            GestureDetector(
+              onTap: () {
+              setState(() {
+              metodos.verificarSenhaIgual(context, senhaConfirm.text, senhainsert.text,senhaAntiga.text, widget.index);
+              });
+              },
+              child: Container(
+                  width: double.infinity,
+                  height: 40,
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(color: Colors.green[600], borderRadius: BorderRadius.circular(8)),
+                  child: Center(child: Text('Atualizar senha', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), )),
+                ),
+            ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> TelaPerfil(index: widget.index,)));
+                  },
+                child: Container(
+                  width: double.infinity,
+                  height: 40,
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(color: Colors.red[600], borderRadius: BorderRadius.circular(8)),
+                  child: Center(child: Text('Fechar', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), )),
+                ),
               ),],
         ),
          ),

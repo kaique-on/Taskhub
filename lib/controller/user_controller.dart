@@ -3,6 +3,7 @@ import 'package:taskhub/database/user_dados.dart';
 
 import 'package:taskhub/model/user_model.dart';
 import 'package:taskhub/ui/tela_inicial.dart';
+import 'package:taskhub/ui/tela_perfil.dart';
 
 class UserController  {
 
@@ -67,21 +68,35 @@ class UserController  {
         }
     }
 
-    editar(context, index, User lista, senhaConfirmar){
-    if(lista.nome.isEmpty){
-        lista.nome = ListaDoUsuario.user[index].nome;
+    editar(context, index, String nomeNovo){
+  
+    if(nomeNovo.isNotEmpty){
+        ListaDoUsuario.user[index].nome = nomeNovo;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.green,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Nome alterado com sucesso!', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.error, color: Colors.green,)
+                    ],
+                )));
+    }else{
+       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.red,
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text('Increndecias inválidas', style: TextStyle(fontSize: 10),),
+                        Icon(Icons.error, color: Colors.red,)
+                    ],
+                )));
     }
-    else if(lista.nome.isEmpty && lista.senha.isEmpty  && lista.email.isEmpty){
-        return 'Insira algum texto para editar';
-    }
-
-    ListaDoUsuario.user.setAll(index, [lista]);
-    print(ListaDoUsuario.user[index]);
    }
 
     verificarSenhaIgual(context, String senhaConfirm, String senhaNova, String senhaAtual, index){
       if (senhaConfirm == senhaNova && senhaAtual == ListaDoUsuario.user[index].senha && senhaNova.isNotEmpty){
-       Navigator.of(context).pop();
+       Navigator.push(context, MaterialPageRoute(builder:(context) => TelaPerfil(index: index)));
        ListaDoUsuario.user[index].senha = senhaNova;
        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
@@ -120,14 +135,14 @@ class UserController  {
                 )));
       }
       if(emailValido && ListaDoUsuario.user[index].email == emailAntigo && emailNovo.isNotEmpty ){
-        Navigator.of(context).pop();
         ListaDoUsuario.user[index].email = emailNovo;
+        Navigator.push(context, MaterialPageRoute(builder:(context) => TelaPerfil(index: index)));
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
                 content: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        Text('Email alterado com sucesso, o email será atualizado ao voltar para essa página', style: TextStyle(fontSize: 10),),
+                        Text('Email alterado com sucesso', style: TextStyle(fontSize: 10),),
                         Icon(Icons.check, color: Colors.green,)
                     ],
                 )));
@@ -135,7 +150,6 @@ class UserController  {
     }
     void adicionarImagem(context, String link, index){
       if(link.isNotEmpty){
-        Navigator.of(context).pop();
         ListaDoUsuario.user[index].imagem = link; ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
                 content: Row(

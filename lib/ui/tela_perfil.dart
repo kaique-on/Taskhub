@@ -32,6 +32,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
   final nomeEdit = TextEditingController();
   final senhaEdit = TextEditingController();
   final senhaConfirmar = TextEditingController();
+  
   bool botaoAtivado = false;
 
    @override
@@ -71,7 +72,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                 onTap: () {showDialog(context: context, builder: (BuildContext context) {
                   return AlterarImagem(index: widget.index);
                 });},
-                child: Row(
+                child: const Row(
                   children: [
                     Text("Alterar imagem"),
                     SizedBox(width: 4),
@@ -106,7 +107,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   });
                 },
               style: const TextStyle(color: Colors.black),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   labelText: 'Nome de Usuário', fillColor: Colors.black,
                   contentPadding: EdgeInsets.symmetric(vertical: -2)
                   ),    
@@ -122,9 +123,9 @@ class _TelaPerfilState extends State<TelaPerfil> {
                 child: ElevatedButton(
                   
                   onPressed: botaoAtivado ? (){
-                  User usuarioEditado = User(email: emailEdit.text, senha: senhaEdit.text, nome: nomeEdit.text);
+                  
                     setState(() {
-                      metodos.editar(context, widget.index, usuarioEditado, senhaConfirmar);
+                      metodos.editar(context, widget.index, nomeEdit.text);
                     });
                   } : null, 
                   child:  Text('Atualizar dados', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),

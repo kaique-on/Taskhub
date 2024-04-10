@@ -16,6 +16,7 @@ class ListController {
   void removeItem(index){
     ListaUsuarios.lista.removeAt(index);
   }
+
   void checarItem(index){
    bool checar = ListaUsuarios.lista[index].isChecked;
    ListaUsuarios.lista[index].isChecked = !checar;
