@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taskhub/controller/user_controller.dart';
 import 'package:taskhub/database/user_dados.dart';
@@ -9,6 +10,8 @@ class AlterarImagem extends StatefulWidget {
   
    AlterarImagem({super.key, required this.index});
 
+  
+
   @override
   State<AlterarImagem> createState() => _AlterarImagemState();
 }
@@ -18,6 +21,11 @@ class _AlterarImagemState extends State<AlterarImagem> {
 
   List<User> lista = ListaDoUsuario.getterUsuarios();
   final imagemNova = TextEditingController();
+
+    void initState () {
+    super.initState();
+    imagemNova.text = lista[widget.index].imagem;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +45,7 @@ class _AlterarImagemState extends State<AlterarImagem> {
           children: [
             TextFormField(
                 controller: imagemNova,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black, fontSize: 12),
                 decoration: InputDecoration(
                     labelText: 'Insira o link da imagem', fillColor: Colors.black,
                     border: OutlineInputBorder(
@@ -47,11 +55,11 @@ class _AlterarImagemState extends State<AlterarImagem> {
                             Radius.circular(8),
                 ))),   
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-            Image.network(height: 100, width: 100, '${lista[widget.index].imagem}')]),
-        
+            SizedBox(height: 16),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.network(height: 100, width: 100, '${lista[widget.index].imagem}')),
+            SizedBox(height: 8),
             Container(
                 width: double.infinity,
                 height: 30,
@@ -62,14 +70,19 @@ class _AlterarImagemState extends State<AlterarImagem> {
                     metodos.adicionarImagem(context, imagemNova.text,  widget.index);
                     });
                   }, 
-                  child:  Text('Atualizar dados', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
+                  child:  Text('Atualizar imagem', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
               ),
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )],
+          Container(
+                width: double.infinity,
+                height: 40,
+                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(color: Colors.red[600], borderRadius: BorderRadius.circular(8)),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pop();
+                  }, 
+                  child:  Center(child: Text('Fechar', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), ))),
+              )],
         ),
          ),
       ),

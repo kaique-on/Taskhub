@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,6 +32,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
   final nomeEdit = TextEditingController();
   final senhaEdit = TextEditingController();
   final senhaConfirmar = TextEditingController();
+  bool botaoAtivado = false;
 
    @override
   void initState () {
@@ -49,13 +51,11 @@ class _TelaPerfilState extends State<TelaPerfil> {
 
       body: 
       Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("${lista[widget.index].email}"),
-            Text("${lista[widget.index].senha}"),
-            
+          
+          children: [            
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -63,24 +63,22 @@ class _TelaPerfilState extends State<TelaPerfil> {
               onTap: () {showDialog(context: context, builder: (BuildContext context) {
                   return AlterarImagem(index: widget.index);
                 });},
-              child: Image.network(height: 100, width: 100, '${lista[widget.index].imagem}')),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.network(height: 100, width: 100, '${lista[widget.index].imagem}'))),
         
-            ElevatedButton(
-              onPressed: (){
-                showDialog(context: context, builder: (BuildContext context) {
-                  return AlterarSenha(index: widget.index);
-                });
-              }, 
-            child: Icon(Icons.edit)
-            ),
-            ElevatedButton(
-              onPressed: (){
-                showDialog(context: context, builder: (BuildContext context) {
-                  return AlterarEmail(index: widget.index);
-                });
-              }, 
-            child: Icon(Icons.email)
-            )
+            GestureDetector(
+                onTap: () {showDialog(context: context, builder: (BuildContext context) {
+                  return AlterarImagem(index: widget.index);
+                });},
+                child: Row(
+                  children: [
+                    Text("Alterar imagem"),
+                    SizedBox(width: 4),
+                    Icon(Icons.edit)
+                  ],
+                ),
+              ),
         
             
         ],),
@@ -97,20 +95,40 @@ class _TelaPerfilState extends State<TelaPerfil> {
         //           Radius.circular(8),
         //     ))),    
         // ),
-        SizedBox(height: 8),
-        TextFormField(
-              controller: nomeEdit,
-            style: const TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-                labelText: 'Nome de Usuário', fillColor: Colors.black,
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.grey.withAlpha(80), width: 0),
-                        borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-            ))),    
+        SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+          child: TextFormField(
+                controller: nomeEdit,
+                onChanged: (value) {
+                  setState(() {
+                    botaoAtivado = nomeEdit.text.isNotEmpty;
+                  });
+                },
+              style: const TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  labelText: 'Nome de Usuário', fillColor: Colors.black,
+                  contentPadding: EdgeInsets.symmetric(vertical: -2)
+                  ),    
+          ),
         ),
         SizedBox(height: 8),
+
+        Container(
+                width: double.infinity,
+                height: 36,
+                margin: EdgeInsets.all(8),
+                
+                child: ElevatedButton(
+                  
+                  onPressed: botaoAtivado ? (){
+                  User usuarioEditado = User(email: emailEdit.text, senha: senhaEdit.text, nome: nomeEdit.text);
+                    setState(() {
+                      metodos.editar(context, widget.index, usuarioEditado, senhaConfirmar);
+                    });
+                  } : null, 
+                  child:  Text('Atualizar dados', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
+              ),
         // TextFormField(
         //       controller: senhaConfirmar,
         //     style: const TextStyle(color: Colors.black),
@@ -138,43 +156,96 @@ class _TelaPerfilState extends State<TelaPerfil> {
         //     ))),   
         //     obscureText: true, 
         // ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Row(
-              children: [
-                Text('Senha atual: '),
-                Text(!eyeText ? '•' * senhaEdit.text.length : senhaEdit.text, style: TextStyle(color: Colors.black),),
-              ],
-            ),
-            Row(
-              children: [
-              IconButton(onPressed: ()=>{
-                setState(() {
-                   eyeText = !eyeText;
-                })
-              }, icon: Icon(Icons.remove_red_eye))
-              ],
-            ),
-          ],
-        ),
-        
-        Container(
-                width: double.infinity,
-                height: 30,
-                margin: EdgeInsets.all(8),
-                child: ElevatedButton(
-                  onPressed: (){
-                  User usuarioEditado = User(email: emailEdit.text, senha: senhaEdit.text, nome: nomeEdit.text);
-                    setState(() {
-                      metodos.editar(context, widget.index, usuarioEditado, senhaConfirmar);
-                    });
-                  }, 
-                  child:  Text('Atualizar dados', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
+
+        SizedBox(height: 16),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text('Email: '),
+                  Text('•' * emailEdit.text.length, style: TextStyle(color: Colors.black), overflow: TextOverflow.ellipsis),
+                ],
               ),
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginInicial()));
-          }, icon: Icon(Icons.door_front_door))
+              GestureDetector(
+                onTap: () {
+                  showDialog(context: context, builder: (BuildContext context) {
+                    return AlterarEmail(index: widget.index);
+                  });
+                },
+                child: Row(
+                  children: [
+                    Text("Alterar email"),
+                    SizedBox(width: 4),
+                    Icon(Icons.edit)
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 8,),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text('Senha: '),
+                  Text('•' * senhaEdit.text.length, style: TextStyle(color: Colors.black),overflow: TextOverflow.ellipsis),
+                ],
+              ),
+              GestureDetector(
+                onTap: () {
+                  showDialog(context: context, builder: (BuildContext context) {
+                    return AlterarSenha(index: widget.index);
+                  });
+                },
+                child: Row(
+                  children: [
+                    Text("Alterar senha"),
+                    SizedBox(width: 4),
+                    Icon(Icons.edit)
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(height: 8,),
+        
+        
+
+              SizedBox(height: 16),
+          
+          Container(
+            alignment: Alignment.centerRight,
+            child: GestureDetector(
+            onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginInicial()));
+                  },
+              child: Container(
+                width: 100,
+                height: 40,
+                decoration: BoxDecoration(color: Colors.red[600], borderRadius: BorderRadius.circular(8)),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Logout", style: TextStyle(color: Colors.white)),
+                    SizedBox(width: 6),
+                    Icon(Icons.logout, color: Colors.white),
+                  ],
+                ),
+              ),
+            ),
+          )
         
           ],
         ),
@@ -195,7 +266,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                  );
               },
             ),
-            SizedBox(), // Espaço vazio no meio 
+            Container(height: double.infinity, width: 1, decoration: BoxDecoration(color: Colors.grey)),
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
@@ -208,13 +279,6 @@ class _TelaPerfilState extends State<TelaPerfil> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

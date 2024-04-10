@@ -35,11 +35,12 @@ class _AlterarSenhaState extends State<AlterarSenha> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 8,),
             TextFormField(
                 controller: senhaAntiga,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                    labelText: 'Senha antiga', fillColor: Colors.black,
+                    labelText: 'Senha atual', fillColor: Colors.black,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.grey.withAlpha(80), width: 0),
@@ -47,11 +48,12 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                             Radius.circular(8),
                 ))),   
             ),
+            SizedBox(height: 8,),
             TextFormField(
                 controller: senhainsert,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                    labelText: 'Senha Nova', fillColor: Colors.black,
+                    labelText: 'Nova senha', fillColor: Colors.black,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.grey.withAlpha(80), width: 0),
@@ -59,11 +61,12 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                             Radius.circular(8),
                 ))),   
             ),
+            SizedBox(height: 8,),
             TextFormField(
                 controller: senhaConfirm,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                    labelText: 'Confirmar senha', fillColor: Colors.black,
+                    labelText: 'Confirmar nova senha', fillColor: Colors.black,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.grey.withAlpha(80), width: 0),
@@ -71,24 +74,31 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                             Radius.circular(8),
                 ))),   
             ),
+            SizedBox(height: 8,),
             Container(
                 width: double.infinity,
-                height: 30,
-                margin: EdgeInsets.all(8),
-                child: ElevatedButton(
-                  onPressed: (){
+                height: 40,
+                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(color: Colors.green[600], borderRadius: BorderRadius.circular(8)),
+                child: GestureDetector(
+                  onTap: (){
                     setState(() {
                     metodos.verificarSenhaIgual(context, senhaConfirm.text, senhainsert.text,senhaAntiga.text, widget.index);
                     });
                   }, 
-                  child:  Text('Atualizar dados', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
+                  child:  Center(child: Text('Atualizar senha', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), ))),
               ),
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )],
+              Container(
+                width: double.infinity,
+                height: 40,
+                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(color: Colors.red[600], borderRadius: BorderRadius.circular(8)),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pop();
+                  }, 
+                  child:  Center(child: Text('Fechar', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), ))),
+              ),],
         ),
          ),
       ),

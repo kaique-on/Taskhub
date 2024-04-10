@@ -68,21 +68,8 @@ class UserController  {
     }
 
     editar(context, index, User lista, senhaConfirmar){
-    if(lista.email.isEmpty){
-        lista.email = ListaDoUsuario.user[index].email;
-    }else if(lista.nome.isEmpty){
+    if(lista.nome.isEmpty){
         lista.nome = ListaDoUsuario.user[index].nome;
-    }else if(lista.email.isNotEmpty && !lista.email.contains('@') && !lista.email.contains('.com')){
-         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                backgroundColor: Colors.red,
-                content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                        Text('Email inválido, tente inserir credencias válidas', style: TextStyle(fontSize: 10),),
-                        Icon(Icons.error)
-                    ],
-                )));
-        lista.email = ListaDoUsuario.user[index].email;
     }
     else if(lista.nome.isEmpty && lista.senha.isEmpty  && lista.email.isEmpty){
         return 'Insira algum texto para editar';
@@ -94,6 +81,7 @@ class UserController  {
 
     verificarSenhaIgual(context, String senhaConfirm, String senhaNova, String senhaAtual, index){
       if (senhaConfirm == senhaNova && senhaAtual == ListaDoUsuario.user[index].senha && senhaNova.isNotEmpty){
+       Navigator.of(context).pop();
        ListaDoUsuario.user[index].senha = senhaNova;
        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
@@ -132,6 +120,7 @@ class UserController  {
                 )));
       }
       if(emailValido && ListaDoUsuario.user[index].email == emailAntigo && emailNovo.isNotEmpty ){
+        Navigator.of(context).pop();
         ListaDoUsuario.user[index].email = emailNovo;
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
@@ -146,6 +135,7 @@ class UserController  {
     }
     void adicionarImagem(context, String link, index){
       if(link.isNotEmpty){
+        Navigator.of(context).pop();
         ListaDoUsuario.user[index].imagem = link; ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.green,
                 content: Row(

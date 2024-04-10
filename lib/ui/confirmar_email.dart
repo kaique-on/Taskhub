@@ -34,11 +34,12 @@ class _AlterarEmailState extends State<AlterarEmail> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 8,),
             TextFormField(
                 controller: emailAntigo,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                    labelText: 'Email antigo', fillColor: Colors.black,
+                    labelText: 'Email atual', fillColor: Colors.black,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.grey.withAlpha(80), width: 0),
@@ -46,11 +47,12 @@ class _AlterarEmailState extends State<AlterarEmail> {
                             Radius.circular(8),
                 ))),   
             ),
+            SizedBox(height: 8,),
             TextFormField(
                 controller: emailNovo,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                    labelText: 'Email novo', fillColor: Colors.black,
+                    labelText: 'Novo email', fillColor: Colors.black,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.grey.withAlpha(80), width: 0),
@@ -58,11 +60,12 @@ class _AlterarEmailState extends State<AlterarEmail> {
                             Radius.circular(8),
                 ))),   
             ),
+            SizedBox(height: 8,),
             TextFormField(
                 controller: emailConfirm,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                    labelText: 'Confirmar email', fillColor: Colors.black,
+                    labelText: 'Confirmar novo email', fillColor: Colors.black,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.grey.withAlpha(80), width: 0),
@@ -70,24 +73,32 @@ class _AlterarEmailState extends State<AlterarEmail> {
                             Radius.circular(8),
                 ))),   
             ),
+            SizedBox(height: 8,),
             Container(
                 width: double.infinity,
-                height: 30,
-                margin: EdgeInsets.all(8),
-                child: ElevatedButton(
-                  onPressed: (){
+                height: 40,
+                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(color: Colors.green[600], borderRadius: BorderRadius.circular(8)),
+                child: GestureDetector(
+                  onTap: (){
                     setState(() {
                     metodos.verificarEmail(context, emailConfirm.text, emailNovo.text,emailAntigo.text, widget.index);
                     });
                   }, 
-                  child:  Text('Atualizar dados', style: GoogleFonts.nunitoSans(color: Colors.purple, fontSize: 16), )),
+                  child:  Center(child: Text('Atualizar email', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), ))),
               ),
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )],
+              Container(
+                width: double.infinity,
+                height: 40,
+                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(color: Colors.red[600], borderRadius: BorderRadius.circular(8)),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pop();
+                  }, 
+                  child:  Center(child: Text('Fechar', style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 16), ))),
+              ),
+              ],
         ),
          ),
       ),

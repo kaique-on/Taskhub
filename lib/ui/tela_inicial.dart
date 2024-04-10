@@ -117,7 +117,8 @@ class _TelaInicialState extends State<TelaInicial> {
                               color: Colors.grey
                             ),
                           ),
-                        )
+                        ),
+                        
                       ],
                     ),
                   ],
@@ -137,7 +138,7 @@ class _TelaInicialState extends State<TelaInicial> {
               icon: Icon(Icons.home),
               onPressed: () {},
             ),
-            SizedBox(), // Espaço vazio no meio para acomodar o botão flutuante
+            Container(height: double.infinity, width: 1, decoration: BoxDecoration(color: Colors.grey)),
             IconButton(
               icon: Icon(Icons.account_circle_outlined),
               onPressed: () {
@@ -150,13 +151,6 @@ class _TelaInicialState extends State<TelaInicial> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
